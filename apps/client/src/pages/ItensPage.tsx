@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStorageSync } from 'ui';
 import './ItensPage.css';
 
@@ -26,6 +26,21 @@ const ItensPage = () => {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarReceitaId, setMostrarReceitaId] = useState<number | null>(null);
   const [editValues, setEditValues] = useState<Partial<Produto>>({});
+
+  // Listener para atualizações em tempo real
+  useEffect(() => {
+    const channel = new BroadcastChannel('products_channel');
+    
+    channel.addEventListener('message', (event) => {
+      if (event.data.type === 'PRODUCTS_UPDATE') {
+        setProdutosCadastrados(event.data.data);
+      }
+    });
+
+    return () => {
+      channel.close();
+    };
+  }, [setProdutosCadastrados]);
 
   const categorias = [
     'café da manhã',

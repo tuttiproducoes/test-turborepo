@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 export function useStorageSync<T>(key: string, initialValue?: T): [T | undefined, (value: T) => void] {
   const [value, setValue] = useState<T | undefined>(() => {
-    // Carrega o valor inicial do localStorage se existir
     if (typeof window !== 'undefined') {
       const storedValue = localStorage.getItem(key);
       return storedValue ? JSON.parse(storedValue) : initialValue;
@@ -12,68 +11,57 @@ export function useStorageSync<T>(key: string, initialValue?: T): [T | undefined
   });
 
   useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === key) {
+    const channel = new BroadcastChannel('storage_sync_channel');
+
+    const handleStorageEvent = (e: StorageEvent) => {
+      if (e.key === key && e.newValue !== null) {
         try {
-          const newValue = e.newValue ? JSON.parse(e.newValue) : undefined;
-          if (JSON.stringify(newValue) !== JSON.stringify(value)) {
-            setValue(newValue);
-          }
+          const parsedValue = JSON.parse(e.newValue);
+          setValue(parsedValue);
         } catch (error) {
           console.error('Error parsing storage value:', error);
         }
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [key, value]);
-
-  const setStoredValue = (newValue: T) => {
-    try {
-      const stringifiedValue = JSON.stringify(newValue);
-      const currentValue = localStorage.getItem(key);
-      
-      // Só atualiza se o valor for diferente
-      if (currentValue !== stringifiedValue) {
-        localStorage.setItem(key, stringifiedValue);
-        setValue(newValue);
-        
-        // Dispara um evento customizado para sincronizar entre abas do mesmo domínio
-        // Isso é necessário porque o evento 'storage' só é disparado entre diferentes abas
-        window.dispatchEvent(new CustomEvent('localStorageChange', {
-          detail: { key, newValue: stringifiedValue }
-        }));
-      }
-    } catch (error) {
-      console.error('Error setting storage value:', error);
-    }
-  };
-
-  // Efeito adicional para lidar com eventos customizados na mesma aba
-  useEffect(() => {
-    const handleCustomStorageChange = (e: CustomEvent) => {
-      if (e.detail.key === key) {
+    const handleBroadcastMessage = (e: MessageEvent) => {
+      if (e.data.type === 'STORAGE_UPDATE' && e.data.key === key) {
         try {
-          const newValue = e.detail.newValue ? JSON.parse(e.detail.newValue) : undefined;
-          if (JSON.stringify(newValue) !== JSON.stringify(value)) {
-            setValue(newValue);
-          }
+          const parsedValue = JSON.parse(e.data.value);
+          setValue(parsedValue);
         } catch (error) {
-          console.error('Error parsing custom storage value:', error);
+          console.error('Error parsing broadcast value:', error);
         }
       }
     };
 
-    window.addEventListener('localStorageChange', handleCustomStorageChange as EventListener);
+    window.addEventListener('storage', handleStorageEvent);
+    channel.addEventListener('message', handleBroadcastMessage);
 
     return () => {
-      window.removeEventListener('localStorageChange', handleCustomStorageChange as EventListener);
+      window.removeEventListener('storage', handleStorageEvent);
+      channel.removeEventListener('message', handleBroadcastMessage);
+      channel.close();
     };
-  }, [key, value]);
+  }, [key]);
+
+  const setStoredValue = (newValue: T) => {
+    try {
+      const stringValue = JSON.stringify(newValue);
+      localStorage.setItem(key, stringValue);
+      setValue(newValue);
+      
+      const channel = new BroadcastChannel('storage_sync_channel');
+      channel.postMessage({ 
+        type: 'STORAGE_UPDATE', 
+        key, 
+        value: stringValue 
+      });
+      setTimeout(() => channel.close(), 100);
+    } catch (error) {
+      console.error('Error setting storage value:', error);
+    }
+  };
 
   return [value, setStoredValue];
 }

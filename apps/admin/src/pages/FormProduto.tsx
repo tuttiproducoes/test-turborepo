@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { useStorageSync } from 'ui';
 import './FormProduto.css';
 
@@ -34,6 +34,18 @@ const FormProduto = () => {
     showDefault: true
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sincronização extra via BroadcastChannel
+  useEffect(() => {
+    if (produtosCadastrados && produtosCadastrados.length > 0) {
+      const channel = new BroadcastChannel('products_channel');
+      channel.postMessage({
+        type: 'PRODUCTS_UPDATE',
+        data: produtosCadastrados
+      });
+      setTimeout(() => channel.close(), 100);
+    }
+  }, [produtosCadastrados]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -190,6 +202,7 @@ const FormProduto = () => {
           <h1>Cadastro de Produtos</h1>
         </div>
       </section>
+      
       <main className="container">
         <form onSubmit={handleSubmit} className="form-cadastro">
           <div className="form-group">

@@ -11,5 +11,8 @@
   "files": [
     "dist/**",
     "styles/**"
-  ]
+  ],
+  "dependencies": {
+    "broadcast-channel": "^4.19.0"
+  }
 }
