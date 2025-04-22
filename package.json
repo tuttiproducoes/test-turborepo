@@ -15,9 +15,9 @@
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
+    "concurrently": "^8.2.2",
     "path": "^0.12.7",
-    "turbo": "^1.13.2",
-    "concurrently": "^8.2.2"
+    "turbo": "^1.13.4"
   },
   "engines": {
     "node": ">=18.0.0"

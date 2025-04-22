@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useWebSocketSync } from 'ui';
 import './ItensPage.css';
-
+type ProdutosArray = Produto[] | undefined;
 interface ItemReceita {
   item: string;
   quantidade: string;
@@ -16,12 +16,14 @@ interface Produto {
   imagem: string;
   observacao: string;
   favorito: boolean;
-  itensReceita: ItemReceita[];
+  itensReceita: Array<{
+    item: string;
+    quantidade: string;
+  }>;
 }
 
 const ItensPage = () => {
-  const [produtosCadastrados, setProdutosCadastrados] = useWebSocketSync<Produto[]>('produtos', []);
-  const [favoritos, setFavoritos] = useWebSocketSync<Produto[]>('favoritos', []);
+  const [produtosCadastrados, setProdutosCadastrados] = useWebSocketSync<ProdutosArray>('produtos', []);  const [favoritos, setFavoritos] = useWebSocketSync<Produto[]>('favoritos', []);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('café da manhã');
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarReceitaId, setMostrarReceitaId] = useState<number | null>(null);
@@ -62,39 +64,39 @@ const ItensPage = () => {
     'churrasco'
   ];
 
-  const produtosFiltrados = produtosCadastrados?.filter(produto => 
-    produto.categoria.toLowerCase() === categoriaSelecionada.toLowerCase()
-  ) || [];
+  const produtosFiltrados = (produtosCadastrados || []).filter(
+    (p: Produto) => p.categoria.toLowerCase() === categoriaSelecionada.toLowerCase()
+  );
 
   const toggleFavorito = (id: number) => {
-    const produto = produtosCadastrados?.find(p => p.id === id);
+    const produto = produtosCadastrados?.find((p: Produto) => p.id === id);
     if (!produto) return;
-
-    const index = favoritos?.findIndex(f => f.id === id) ?? -1;
+  
+    const index = favoritos?.findIndex((f: Produto) => f.id === id) ?? -1;
     let novosFavoritos = [...(favoritos || [])];
-
+  
     if (index === -1) {
       novosFavoritos.push(produto);
     } else {
       novosFavoritos.splice(index, 1);
     }
-
+  
     setFavoritos(novosFavoritos);
   };
-
+  
   const deletarProduto = (id: number) => {
+    const novosProdutos = produtosCadastrados?.filter((p: Produto) => p.id !== id) || [];
     if (window.confirm('Tem certeza que deseja excluir este produto permanentemente?')) {
-      const novosProdutos = produtosCadastrados?.filter(p => p.id !== id) || [];
-      const novosFavoritos = favoritos?.filter(f => f.id !== id) || [];
-
+      const novosProdutos = produtosCadastrados?.filter((p: Produto) => p.id !== id) || [];
+      const novosFavoritos = favoritos?.filter((f: Produto) => f.id !== id) || [];
+  
       setProdutosCadastrados(novosProdutos);
       setFavoritos(novosFavoritos);
     }
   };
 
   const iniciarEdicao = (id: number) => {
-    const produto = produtosCadastrados?.find(p => p.id === id);
-    if (produto) {
+    const produto = produtosCadastrados?.find((p: Produto) => p.id === id);    if (produto) {
       setEditValues({
         nome: produto.nome,
         descricao: produto.descricao,
@@ -126,7 +128,7 @@ const ItensPage = () => {
   };
 
   const salvarEdicao = (id: number) => {
-    const novosProdutos = produtosCadastrados?.map(produto => 
+    const novosProdutos = produtosCadastrados?.map((produto: Produto) => 
       produto.id === id ? { ...produto, ...editValues } : produto
     ) || [];
 
@@ -159,7 +161,7 @@ const ItensPage = () => {
       <article data-test-id="artigo container cardstack" className="seção container cardstack">
         <section data-test-id="seção container cardstack" id="cardstack-section">
           <div id="produtos-container" className="menu-fornecedores-lista__wrapper">
-            {produtosFiltrados.map(produto => (
+          {produtosFiltrados.map((produto: Produto) => (
               <div key={produto.id} className="menu-fornecedores-lista__item-wrapper">
                 <div className={`menu ${editandoId === produto.id ? 'editando' : ''}`}>
                   <div className="imagem-cardstack">
@@ -264,8 +266,16 @@ const ItensPage = () => {
                       className="favorito-btn" 
                       onClick={() => toggleFavorito(produto.id)}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={favoritos?.some(f => f.id === produto.id) ? '#ff4757' : 'none'} stroke={favoritos?.some(f => f.id === produto.id) ? '#ff4757' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`icone-coração ${favoritos?.some(f => f.id === produto.id) ? 'favoritado' : ''}`}>
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 24 24" 
+                        fill={favoritos?.some((f: Produto) => f.id === produto.id) ? '#ff4757' : 'none'} 
+                        stroke={favoritos?.some((f: Produto) => f.id === produto.id) ? '#ff4757' : 'currentColor'} 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        className={`icone-coração ${favoritos?.some((f: Produto) => f.id === produto.id) ? 'favoritado' : ''}`}
+                      >                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                       </svg>
                     </button>
                     <button 
@@ -296,7 +306,7 @@ const ItensPage = () => {
                     <button className="fechar-receita" onClick={() => setMostrarReceitaId(null)}>✕</button>
                     <div className="receita-titulo">Receita: {produto.nome}</div>
                     <div className="receita-lista" id={`receita-lista-${produto.id}`}>
-                      {produto.itensReceita.map((item, index) => (
+                    {produto.itensReceita.map((item: ItemReceita, index: number) => (
                         <div key={index} className="receita-item">
                           {index + 1}° - {item.quantidade.includes('kg') ? item.quantidade : item.quantidade + 'g'} de {item.item}
                         </div>
