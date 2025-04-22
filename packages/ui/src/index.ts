@@ -1,17 +1,3 @@
-export { useWebSocketSync } from './useWebSocketSync.js';
-export { useStorageSync } from './useStorageSync.js';
-
-export interface Produto {
-    id: number;
-    nome: string;
-    descricao: string;
-    preco: number;
-    categoria: string;
-    imagem: string;
-    observacao: string;
-    favorito: boolean;
-    itensReceita: Array<{
-      item: string;
-      quantidade: string;
-    }>;
-  }
+// packages/ui/src/index.ts
+export * from './useStorageSync';
+export * from './useWebSocketSync';
