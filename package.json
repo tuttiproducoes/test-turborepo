@@ -1,0 +1,22 @@
+{
+  "name": "test-turborepo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "path": "^0.12.7",
+    "turbo": "^1.13.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

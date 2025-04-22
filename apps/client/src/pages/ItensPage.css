@@ -1,0 +1,356 @@
+/* Estilos específicos para a página de itens */
+.seleção-de-categoria-mobile {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.seleção-de-categoria-mobile li {
+  margin-right: 15px;
+  padding: 5px 10px;
+  background-color: #000000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Estilos para a barra de rolagem do cabeçalho móvel */
+.seleção-de-categoria-mobile::-webkit-scrollbar {
+  height: 8px;
+  background-color: #000000;
+}
+
+.seleção-de-categoria-mobile::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 4px;
+}
+
+.seleção-de-categoria-mobile::-webkit-scrollbar-track {
+  background-color: #000000;
+}
+
+[data-test-id="artigo container cardstack"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+[data-test-id="seção container cardstack"] {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  background-color: #f9f9f9;
+}
+
+.menu-fornecedores-lista__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  box-sizing: border-box;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.menu {
+  position: relative;
+  min-height: 100px;
+  display: flex;
+  align-items: stretch;
+  gap: 5px;
+  width: fit-content;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  max-width: 350px;
+}
+
+.menu:hover {
+  transform: translateY(-5px);
+}
+
+.imagem-cardstack {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.imagem-cardstack img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu__content {
+  width: 170px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menu__titulo {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 2px 0;
+}
+
+.menu__nome {
+  font-size: 14px;
+}
+
+.menu-descrição {
+  height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  color: #666;
+}
+
+.menu__rodapé {
+  font-size: 12px;
+  color: #333;
+}
+
+.menu__valores {
+  font-weight: bold;
+}
+
+.menu__observação {
+  height: 45px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10px;
+  color: #999;
+}
+
+.menu-fornecedores-lista__icone-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.icone-coração {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.icone-coração.favoritado {
+  fill: #ff4757;
+  stroke: #ff4757;
+  animation: pulse 0.5s;
+}
+
+.icone-lixeira {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  stroke: #ccc;
+  transition: all 0.3s ease;
+}
+
+.icone-lixeira:hover {
+  stroke: #ff4757;
+}
+
+.icone-editar {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  stroke: #ccc;
+  transition: all 0.3s ease;
+}
+
+.icone-editar:hover {
+  stroke: #4CAF50;
+}
+
+.icone-caderno {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  stroke: #ccc;
+  transition: all 0.3s ease;
+}
+
+.icone-caderno:hover {
+  stroke: #4285F4;
+}
+
+.icone-upload {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  stroke: #4285F4;
+  transition: all 0.3s ease;
+}
+
+.icone-upload:hover {
+  stroke: #3367D6;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Estilos para o modo de edição */
+.menu.editando {
+  box-shadow: 0 0 0 2px #4CAF50;
+}
+
+.edit-input, .edit-textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.edit-textarea {
+  height: 100%;
+  resize: none;
+}
+
+.salvar-btn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.salvar-btn:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para o documento-receita */
+.receita-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.receita-header {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.receita-titulo {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  display: inline-block;
+  margin: 0 auto;
+  padding: 0 30px; /* Espaço para o botão de fechar */
+}
+
+.fechar-receita {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.receita-lista {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 5px;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.receita-item {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #000;
+}
+
+.orcamento-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.btn-orcamento {
+  position: relative;
+  background-color: #000000;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.btn-orcamento:hover {
+  background-color: #000000;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-orcamento::after {
+  content: attr(data-count);
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #000000;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}

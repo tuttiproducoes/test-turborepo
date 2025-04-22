@@ -1,0 +1,124 @@
+/* Estilos específicos para a página de cadastro */
+.form-cadastro {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Estilos para os itens de receita */
+.item-receita-group {
+    margin-bottom: 15px;
+}
+
+.form-group-inline {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.form-group-inline .form-group {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.form-group-inline .form-group.item-receita {
+    flex: 5; /* Largura maior para o campo item-receita */
+    min-width: 0; /* Permite que o campo diminua conforme necessário */
+}
+
+.form-group-inline .form-group.kilograma-item {
+    flex: 1; /* Largura menor para o campo kilograma */
+    max-width: 100px; /* Limita a largura máxima */
+}
+
+.form-group-inline .form-group.icones-item {
+    flex: 0 0 60px; /* Largura fixa para os ícones */
+    display: flex;
+    justify-content: space-between;
+}
+
+.material-icons {
+    font-size: 20px; /* Ícones um pouco menores */
+    cursor: pointer;
+}
+
+/* Estilo para o campo kilograma */
+input[name="kilograma-item[]"] {
+    width: 100%;
+    max-width: 80px; /* Limita a largura visual */
+    padding: 10px 5px; /* Padding mais compacto */
+}
+
+/* Estilos para o upload de arquivo */
+.file-upload {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-upload-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #000000;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.file-upload-button:hover {
+    background-color: #45a049;
+}
+
+.file-upload-text {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Estilos para a pré-visualização da imagem */
+.image-preview {
+    width: 100%;
+    height: 150px;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-preview__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: none;
+}
+
+.image-preview__default-text {
+    color: #999;
+    font-size: 14px;
+}
+
+/* contagem de caracteres de descricao e observacao */
+.char-counter {
+    text-align: right;
+    font-size: 12px;
+    color: #666;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
