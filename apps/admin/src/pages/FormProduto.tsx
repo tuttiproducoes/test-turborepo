@@ -360,6 +360,7 @@ const FormProduto = () => {
           <button type="submit">Cadastrar Produto</button>
         </form>
       </main>
+      <button className="evento-btn">seu evento</button>
     </>
   );
 };

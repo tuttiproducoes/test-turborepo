@@ -1,10 +1,20 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import ItensPage from './pages/ItensPage'
-import "../../../packages/ui/styles/global.css";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ItensPage from './pages/ItensPage';
+import OrcamentoPage from './pages/OrcamentoPage';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ItensPage />,
+  },
+  {
+    path: "/orcamento",
+    element: <OrcamentoPage />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ItensPage />
+    <RouterProvider router={router} />
   </React.StrictMode>
-)
+);

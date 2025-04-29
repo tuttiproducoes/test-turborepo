@@ -122,3 +122,20 @@ input[name="kilograma-item[]"] {
     margin-top: -10px;
     margin-bottom: 10px;
 }
+
+.evento-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #000000;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.evento-btn:hover {
+    background-color: #333;
+}
