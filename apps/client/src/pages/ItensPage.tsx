@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useStorageSync } from 'ui';
+import { useWebSocketSync } from 'ui';
 import './ItensPage.css';
 
 interface ItemReceita {
@@ -20,8 +20,8 @@ interface Produto {
 }
 
 const ItensPage = () => {
-  const [produtosCadastrados, setProdutosCadastrados] = useStorageSync<Produto[]>('produtos', []);
-  const [favoritos, setFavoritos] = useStorageSync<Produto[]>('favoritos', []);
+  const [produtosCadastrados, setProdutosCadastrados] = useWebSocketSync<Produto[]>('produtos', []);
+  const [favoritos, setFavoritos] = useWebSocketSync<Produto[]>('favoritos', []);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('café da manhã');
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarReceitaId, setMostrarReceitaId] = useState<number | null>(null);

@@ -11,6 +11,10 @@
     },
     "lint": {
       "outputs": []
+    },
+    "start-server": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
