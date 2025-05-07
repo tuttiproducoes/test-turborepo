@@ -1,5 +1,5 @@
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
-import { useWebSocketSync } from 'ui';
+import { useStorageSync } from 'ui';
 import './FormProduto.css';
 
 interface ItemReceita {
@@ -20,7 +20,7 @@ interface Produto {
 }
 
 const FormProduto = () => {
-  const [produtosCadastrados, setProdutosCadastrados] = useWebSocketSync<Produto[]>('produtos', []);
+  const [produtosCadastrados, setProdutosCadastrados] = useStorageSync<Produto[]>('produtos', []);
   const [itensReceita, setItensReceita] = useState<ItemReceita[]>([{ item: '', quantidade: '' }]);
   const [formData, setFormData] = useState({
     nome: '',
@@ -202,7 +202,7 @@ const FormProduto = () => {
           <h1>Cadastro de Produtos</h1>
         </div>
       </section>
-
+      
       <main className="container">
         <form onSubmit={handleSubmit} className="form-cadastro">
           <div className="form-group">
